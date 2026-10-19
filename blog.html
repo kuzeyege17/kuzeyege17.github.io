@@ -147,6 +147,37 @@ nav {
   cursor: pointer;
   transition: all 0.2s;
 }
+.search-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--card-bg, #faf8f5);
+  border: 1.5px solid var(--border, #e8e0d5);
+  border-radius: 24px;
+  padding: 8px 18px;
+  margin-left: auto;
+  transition: border-color .2s;
+}
+.search-box:focus-within {
+  border-color: var(--olive, #7a7a5a);
+}
+.search-box svg { opacity: .45; flex-shrink:0; }
+.search-box input {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: .92rem;
+  font-family: inherit;
+  color: var(--ink, #2c2a26);
+  width: 160px;
+}
+.search-box input::placeholder { color: var(--stone, #9c9585); }
+.filters {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
 .filter-btn:hover, .filter-btn.active {
   background: var(--turq-deep);
   border-color: var(--turq-deep);
@@ -405,6 +436,10 @@ footer {
   <button class="filter-btn" onclick="filterBlog('kitap', this)">Kitap</button>
   <button class="filter-btn" onclick="filterBlog('yoga', this)">Yoga</button>
   <button class="filter-btn" onclick="filterBlog('doğa', this)">Doğa</button>
+  <div class="search-box">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input type="text" id="blogSearch" placeholder="Yazılarda ara…" oninput="searchBlog(this.value)">
+  </div>
 </div>
 
 <section class="blog-section">
