@@ -535,21 +535,16 @@ function filterBlog(category, btn) {
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   
-  // Tüm kartları topla, sırala ve grid'e yeniden ekle
   const grid = document.querySelector('.blog-grid');
-  const cards = Array.from(grid.querySelectorAll('.blog-card'));
+  // Orijinal sırayı koru
+  const cards = Array.from(grid.children);
   
-  cards.forEach(card => {
-    if (category === 'tümü' || card.dataset.category === category) {
-      card.style.display = '';
-    } else {
-      card.style.display = 'none';
-    }
-  });
+  // Önce görünürleri başa taşı
+  const visible = cards.filter(c => category === 'tümü' || c.dataset.category === category);
+  const hidden = cards.filter(c => category !== 'tümü' && c.dataset.category !== category);
   
-  // Görünür olmayan kartları geçici olarak sonuna taşı
-  cards.filter(c => c.style.display === 'none').forEach(c => grid.appendChild(c));
-  cards.filter(c => c.style.display !== 'none').forEach(c => grid.prepend(c));
+  visible.forEach(c => { c.style.display = ''; grid.appendChild(c); });
+  hidden.forEach(c => { c.style.display = 'none'; grid.appendChild(c); });
 }
 </script>
 </body>
