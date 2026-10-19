@@ -158,16 +158,9 @@ nav {
   padding: 60px 80px 100px;
 }
 .blog-grid {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 32px;
-}
-.blog-card {
-  flex: 1 1 calc(33.333% - 22px);
-  min-width: 280px;
-}
-.blog-card.featured {
-  flex: 1 1 calc(66.666% - 11px);
 }
 .blog-card {
   border-radius: 16px;
@@ -540,18 +533,26 @@ footer {
 function filterBlog(category, btn) {
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  document.querySelectorAll('.blog-card').forEach(card => {
-    if (category === 'tümü' || card.dataset.category === category) {
-      card.style.display = '';
-      card.style.gridColumn = '';
-    } else {
-      card.style.display = 'none';
-    }
+  
+  const grid = document.querySelector('.blog-grid');
+  const allCards = Array.from(document.querySelectorAll('.blog-card'));
+  
+  // Önce hepsini grid'den çıkar
+  allCards.forEach(card => card.remove());
+  
+  // Sadece eşleşenleri geri ekle
+  const visible = allCards.filter(card => 
+    category === 'tümü' || card.dataset.category === category
+  );
+  
+  visible.forEach((card, i) => {
+    card.style.gridColumn = '';
+    grid.appendChild(card);
   });
-  // featured kartı varsa ve görünürse span 2 ver
-  const featured = document.querySelector('.blog-card.featured');
-  if (featured && featured.style.display !== 'none') {
-    featured.style.gridColumn = 'span 2';
+  
+  // İlk kart featured ise span 2 ver
+  if (visible.length > 0 && visible[0].classList.contains('featured')) {
+    visible[0].style.gridColumn = 'span 2';
   }
 }
 </script>
