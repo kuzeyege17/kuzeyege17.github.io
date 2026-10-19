@@ -158,9 +158,16 @@ nav {
   padding: 60px 80px 100px;
 }
 .blog-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
+  flex-wrap: wrap;
   gap: 32px;
+}
+.blog-card {
+  flex: 1 1 calc(33.333% - 22px);
+  min-width: 280px;
+}
+.blog-card.featured {
+  flex: 1 1 calc(66.666% - 11px);
 }
 .blog-card {
   border-radius: 16px;
@@ -332,7 +339,7 @@ footer {
   .filters { padding: 20px 24px; flex-wrap: wrap; }
   
   /* BLOG / KİTAP / YOGA GRİD */
-  .blog-grid, .books-grid, .yoga-grid { grid-template-columns: 1fr !important; }
+  .blog-grid { flex-direction: column !important; } .books-grid, .yoga-grid { grid-template-columns: 1fr !important; }
   .blog-card.featured { grid-column: span 1 !important; }
   .yoga-card.large { grid-column: span 1 !important; }
   .books-section, .yoga-section, .blog-section, .gallery-section { padding: 36px 24px 60px; }
@@ -536,10 +543,16 @@ function filterBlog(category, btn) {
   document.querySelectorAll('.blog-card').forEach(card => {
     if (category === 'tümü' || card.dataset.category === category) {
       card.style.display = '';
+      card.style.gridColumn = '';
     } else {
       card.style.display = 'none';
     }
   });
+  // featured kartı varsa ve görünürse span 2 ver
+  const featured = document.querySelector('.blog-card.featured');
+  if (featured && featured.style.display !== 'none') {
+    featured.style.gridColumn = 'span 2';
+  }
 }
 </script>
 </body>
