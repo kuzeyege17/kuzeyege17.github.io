@@ -566,20 +566,37 @@ footer {
 
 
 <script>
+function applyFilter(category) {
+  const grid = document.querySelector('.blog-grid');
+  const cards = Array.from(grid.children);
+  const visible = cards.filter(c => category === 'tümü' || c.dataset.category === category);
+  const hidden  = cards.filter(c => category !== 'tümü' && c.dataset.category !== category);
+  visible.forEach(c => { c.style.display = ''; grid.appendChild(c); });
+  hidden.forEach(c  => { c.style.display = 'none'; grid.appendChild(c); });
+}
+
 function filterBlog(category, btn) {
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  
+  const searchInput = document.getElementById('blogSearch');
+  if (searchInput) searchInput.value = '';
+  applyFilter(category);
+}
+
+function searchBlog(query) {
+  const q = query.trim().toLowerCase();
   const grid = document.querySelector('.blog-grid');
-  // Orijinal sırayı koru
   const cards = Array.from(grid.children);
-  
-  // Önce görünürleri başa taşı
-  const visible = cards.filter(c => category === 'tümü' || c.dataset.category === category);
-  const hidden = cards.filter(c => category !== 'tümü' && c.dataset.category !== category);
-  
-  visible.forEach(c => { c.style.display = ''; grid.appendChild(c); });
-  hidden.forEach(c => { c.style.display = 'none'; grid.appendChild(c); });
+  if (!q) {
+    const activeBtn = document.querySelector('.filter-btn.active');
+    const cat = activeBtn ? activeBtn.textContent.trim().toLowerCase() : 'tümü';
+    applyFilter(cat);
+    return;
+  }
+  cards.forEach(c => {
+    const text = c.innerText.toLowerCase();
+    c.style.display = text.includes(q) ? '' : 'none';
+  });
 }
 </script>
 </body>
