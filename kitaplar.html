@@ -223,17 +223,36 @@ nav {
   height: 1px;
   background: rgba(200,184,154,0.4);
 }
-.publisher-label {
-  font-size: 0.6rem;
-  font-weight: 400;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--turq-deep);
-  opacity: 0.75;
-  padding: 18px 0 10px 4px;
-  width: 100%;
-  grid-column: 1 / -1;
+.publisher-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0 0 28px 0;
 }
+.pub-chip {
+  font-size: 0.58rem;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border: 1px solid rgba(138,122,104,0.3);
+  border-radius: 2px;
+  padding: 5px 10px;
+  cursor: pointer;
+  background: transparent;
+  transition: all 0.2s;
+  font-family: 'Jost', sans-serif;
+}
+.pub-chip:hover {
+  color: var(--turq-deep);
+  border-color: var(--turq-deep);
+}
+.pub-chip.active {
+  color: var(--cream);
+  background: var(--turq-deep);
+  border-color: var(--turq-deep);
+}
+.book-card.hidden { display: none; }
 .book-rating { color: var(--terra); font-size: 0.75rem; }
 .book-note {
   font-size: 0.78rem;
@@ -422,10 +441,20 @@ footer {
 
 <section class="books-section">
   <div class="section-label">Roman</div>
-  <div class="books-grid">
+  <div class="publisher-filters" id="roman-filters">
+    <button class="pub-chip active" onclick="filterBooks('roman', 'tümü', this)">Tümü</button>
+    <button class="pub-chip" onclick="filterBooks('roman', 'Budala Kitap', this)">Budala Kitap</button>
+    <button class="pub-chip" onclick="filterBooks('roman', 'Can Yayınları', this)">Can Yayınları</button>
+    <button class="pub-chip" onclick="filterBooks('roman', 'Doğan Kitap', this)">Doğan Kitap</button>
+    <button class="pub-chip" onclick="filterBooks('roman', 'Editura', this)">Editura</button>
+    <button class="pub-chip" onclick="filterBooks('roman', 'İş Bankası Kültür Yayınları', this)">İş Bankası Kültür Yayınları</button>
+    <button class="pub-chip" onclick="filterBooks('roman', 'Nora Kitap', this)">Nora Kitap</button>
+    <button class="pub-chip" onclick="filterBooks('roman', 'Ötüken Neşriyat', this)">Ötüken Neşriyat</button>
+    <button class="pub-chip" onclick="filterBooks('roman', 'Timaş Yayınları', this)">Timaş Yayınları</button>
+  </div>
+  <div class="books-grid" id="roman-grid">
 
-    <div class="publisher-label">Budala Kitap</div>
-    <div class="book-card">
+    <div class="book-card" data-publisher="Budala Kitap">
       <div class="book-spine" style="background:linear-gradient(160deg,var(--turq-deep),var(--turq));">
         <div class="book-title-overlay">Kalp Lambası</div>
       </div>
@@ -436,8 +465,7 @@ footer {
       </div>
     </div>
 
-    <div class="publisher-label">Can Yayınları</div>
-    <div class="book-card">
+    <div class="book-card" data-publisher="Can Yayınları">
       <div class="book-spine" style="background:linear-gradient(160deg,#5a4a3a,#8a7a6a);">
         <div class="book-title-overlay">Akşamın Sesleri</div>
       </div>
@@ -448,8 +476,7 @@ footer {
       </div>
     </div>
 
-    <div class="publisher-label">Doğan Kitap</div>
-    <div class="book-card">
+    <div class="book-card" data-publisher="Doğan Kitap">
       <div class="book-spine" style="background:linear-gradient(160deg,#2a3a5a,#4a6a9a);">
         <div class="book-title-overlay">Şeytan Yemini</div>
       </div>
@@ -460,8 +487,7 @@ footer {
       </div>
     </div>
 
-    <div class="publisher-label">Editura</div>
-    <div class="book-card">
+    <div class="book-card" data-publisher="Editura">
       <div class="book-spine" style="background:linear-gradient(160deg,var(--terra),var(--terra-l));">
         <div class="book-title-overlay">Ruhların Sonbaharı</div>
       </div>
@@ -472,8 +498,7 @@ footer {
       </div>
     </div>
 
-    <div class="publisher-label">İş Bankası Kültür Yayınları</div>
-    <div class="book-card">
+    <div class="book-card" data-publisher="İş Bankası Kültür Yayınları">
       <div class="book-spine" style="background:linear-gradient(160deg,#6a3a2a,#b07060);">
         <div class="book-title-overlay">Gradiva</div>
       </div>
@@ -484,8 +509,7 @@ footer {
       </div>
     </div>
 
-    <div class="publisher-label">Nora Kitap</div>
-    <div class="book-card">
+    <div class="book-card" data-publisher="Nora Kitap">
       <div class="book-spine" style="background:linear-gradient(160deg,#7a5a8a,#a07ab0);">
         <div class="book-title-overlay">Profesör Do'nun Göz Kliniği</div>
       </div>
@@ -496,8 +520,7 @@ footer {
       </div>
     </div>
 
-    <div class="publisher-label">Ötüken Neşriyat</div>
-    <div class="book-card">
+    <div class="book-card" data-publisher="Ötüken Neşriyat">
       <div class="book-spine" style="background:linear-gradient(160deg,var(--stone),var(--stone-l));">
         <div class="book-title-overlay">Yitik Ufuklar</div>
       </div>
@@ -508,8 +531,7 @@ footer {
       </div>
     </div>
 
-    <div class="publisher-label">Timaş Yayınları</div>
-    <div class="book-card">
+    <div class="book-card" data-publisher="Timaş Yayınları">
       <div class="book-spine" style="background:linear-gradient(160deg,var(--olive),var(--olive-l));">
         <div class="book-title-overlay">Kitap'ın Yolcuları</div>
       </div>
@@ -525,10 +547,21 @@ footer {
 
 <section class="books-section">
   <div class="section-label">Çocuk Kitabı</div>
-  <div class="books-grid">
+  <div class="publisher-filters" id="cocuk-filters">
+    <button class="pub-chip active" onclick="filterBooks('cocuk', 'tümü', this)">Tümü</button>
+    <button class="pub-chip" onclick="filterBooks('cocuk', 'Butik Yayıncılık', this)">Butik Yayıncılık</button>
+    <button class="pub-chip" onclick="filterBooks('cocuk', 'Domingo Çocuk', this)">Domingo Çocuk</button>
+    <button class="pub-chip" onclick="filterBooks('cocuk', 'Domingo Yayınevi', this)">Domingo Yayınevi</button>
+    <button class="pub-chip" onclick="filterBooks('cocuk', 'Hobi Yayınevi', this)">Hobi Yayınevi</button>
+    <button class="pub-chip" onclick="filterBooks('cocuk', 'İş Bankası Kültür Yayınları', this)">İş Bankası Kültür Yayınları</button>
+    <button class="pub-chip" onclick="filterBooks('cocuk', 'İthaki Yayınları', this)">İthaki Yayınları</button>
+    <button class="pub-chip" onclick="filterBooks('cocuk', 'Mundi', this)">Mundi</button>
+    <button class="pub-chip" onclick="filterBooks('cocuk', 'Sincap Kitap', this)">Sincap Kitap</button>
+    <button class="pub-chip" onclick="filterBooks('cocuk', 'Uçanbalık', this)">Uçanbalık</button>
+  </div>
+  <div class="books-grid" id="cocuk-grid">
 
-    <div class="publisher-label">Butik Yayıncılık</div>
-    <div class="book-card">
+    <div class="book-card" data-publisher="Butik Yayıncılık">
       <div class="book-spine" style="background:linear-gradient(160deg,var(--sun),#f8d878);">
         <div class="book-title-overlay">Avucundaki Öpücük</div>
       </div>
@@ -539,8 +572,7 @@ footer {
       </div>
     </div>
 
-    <div class="publisher-label">Domingo Çocuk</div>
-    <div class="book-card">
+    <div class="book-card" data-publisher="Domingo Çocuk">
       <div class="book-spine" style="background:linear-gradient(160deg,#c87040,#e8a870);">
         <div class="book-title-overlay">Bu Kitabın Ortasında Duvar Var</div>
       </div>
@@ -551,8 +583,7 @@ footer {
       </div>
     </div>
 
-    <div class="publisher-label">Domingo Yayınevi</div>
-    <div class="book-card">
+    <div class="book-card" data-publisher="Domingo Yayınevi">
       <div class="book-spine" style="background:linear-gradient(160deg,#4a7a9a,#80b0c8);">
         <div class="book-title-overlay">Bavulumdaki Kırık Fincan</div>
       </div>
@@ -563,7 +594,7 @@ footer {
       </div>
     </div>
 
-    <div class="book-card">
+    <div class="book-card" data-publisher="Domingo Yayınevi">
       <div class="book-spine" style="background:linear-gradient(160deg,#6a9a50,#a8c888);">
         <div class="book-title-overlay">Çekirdek ile Yumurta</div>
       </div>
@@ -574,7 +605,7 @@ footer {
       </div>
     </div>
 
-    <div class="book-card">
+    <div class="book-card" data-publisher="Domingo Yayınevi">
       <div class="book-spine" style="background:linear-gradient(160deg,#7a6a40,#c0a870);">
         <div class="book-title-overlay">Höt ile Zöt</div>
       </div>
@@ -585,7 +616,7 @@ footer {
       </div>
     </div>
 
-    <div class="book-card">
+    <div class="book-card" data-publisher="Domingo Yayınevi">
       <div class="book-spine" style="background:linear-gradient(160deg,#407a8a,#70b0c0);">
         <div class="book-title-overlay">Kimse Bakmazken Duygular Ne Yapar?</div>
       </div>
@@ -596,7 +627,7 @@ footer {
       </div>
     </div>
 
-    <div class="book-card">
+    <div class="book-card" data-publisher="Domingo Yayınevi">
       <div class="book-spine" style="background:linear-gradient(160deg,#9a7ac8,#c8b0e8);">
         <div class="book-title-overlay">Kıpkıp ile Tamtam ve Heyecanlı Tekboynuz</div>
       </div>
@@ -607,7 +638,7 @@ footer {
       </div>
     </div>
 
-    <div class="book-card">
+    <div class="book-card" data-publisher="Domingo Yayınevi">
       <div class="book-spine" style="background:linear-gradient(160deg,#c8a0b8,#e8c8d8);">
         <div class="book-title-overlay">Uykusuz Ayı Monti</div>
       </div>
@@ -618,7 +649,7 @@ footer {
       </div>
     </div>
 
-    <div class="book-card">
+    <div class="book-card" data-publisher="Domingo Yayınevi">
       <div class="book-spine" style="background:linear-gradient(160deg,#8a5a3a,#c09070);">
         <div class="book-title-overlay">Üç Taş</div>
       </div>
@@ -629,8 +660,7 @@ footer {
       </div>
     </div>
 
-    <div class="publisher-label">Hobi Yayınevi</div>
-    <div class="book-card">
+    <div class="book-card" data-publisher="Hobi Yayınevi">
       <div class="book-spine" style="background:linear-gradient(160deg,#d87840,#f0b080);">
         <div class="book-title-overlay">Elmer ve Süper El</div>
       </div>
@@ -641,8 +671,7 @@ footer {
       </div>
     </div>
 
-    <div class="publisher-label">İş Bankası Kültür Yayınları</div>
-    <div class="book-card">
+    <div class="book-card" data-publisher="İş Bankası Kültür Yayınları">
       <div class="book-spine" style="background:linear-gradient(160deg,#c85030,#e89060);">
         <div class="book-title-overlay">Akıllı Tilkinin Masalı</div>
       </div>
@@ -653,7 +682,7 @@ footer {
       </div>
     </div>
 
-    <div class="book-card">
+    <div class="book-card" data-publisher="İş Bankası Kültür Yayınları">
       <div class="book-spine" style="background:linear-gradient(160deg,var(--terra),#e8a070);">
         <div class="book-title-overlay">Her Zaman Yanında Olacağım</div>
       </div>
@@ -664,7 +693,7 @@ footer {
       </div>
     </div>
 
-    <div class="book-card">
+    <div class="book-card" data-publisher="İş Bankası Kültür Yayınları">
       <div class="book-spine" style="background:linear-gradient(160deg,#c8a030,#e8d070);">
         <div class="book-title-overlay">Yaramaz Fındık</div>
       </div>
@@ -675,7 +704,7 @@ footer {
       </div>
     </div>
 
-    <div class="book-card">
+    <div class="book-card" data-publisher="İş Bankası Kültür Yayınları">
       <div class="book-spine" style="background:linear-gradient(160deg,#8ab0c8,#c8dcea);">
         <div class="book-title-overlay">Monti Başım Dertte</div>
       </div>
@@ -686,7 +715,7 @@ footer {
       </div>
     </div>
 
-    <div class="book-card">
+    <div class="book-card" data-publisher="İş Bankası Kültür Yayınları">
       <div class="book-spine" style="background:linear-gradient(160deg,#5a8a6a,#90c0a0);">
         <div class="book-title-overlay">Paylaşmak İstemeyen Ayı</div>
       </div>
@@ -697,7 +726,7 @@ footer {
       </div>
     </div>
 
-    <div class="book-card">
+    <div class="book-card" data-publisher="İş Bankası Kültür Yayınları">
       <div class="book-spine" style="background:linear-gradient(160deg,var(--turq-deep),#60a898);">
         <div class="book-title-overlay">Sevginin Gücü</div>
       </div>
@@ -708,7 +737,7 @@ footer {
       </div>
     </div>
 
-    <div class="book-card">
+    <div class="book-card" data-publisher="İş Bankası Kültür Yayınları">
       <div class="book-spine" style="background:linear-gradient(160deg,#7888c0,#a8b8e0);">
         <div class="book-title-overlay">Tarçın ile En İyi Arkadaşları</div>
       </div>
@@ -719,7 +748,7 @@ footer {
       </div>
     </div>
 
-    <div class="book-card">
+    <div class="book-card" data-publisher="İş Bankası Kültür Yayınları">
       <div class="book-spine" style="background:linear-gradient(160deg,#4888c8,#88b8e8);">
         <div class="book-title-overlay">Tarçın ile Yeni Yıl</div>
       </div>
@@ -730,7 +759,7 @@ footer {
       </div>
     </div>
 
-    <div class="book-card">
+    <div class="book-card" data-publisher="İş Bankası Kültür Yayınları">
       <div class="book-spine" style="background:linear-gradient(160deg,#9868b0,#c8a0d8);">
         <div class="book-title-overlay">Tarçın ve Büyük Pijama Partisi</div>
       </div>
@@ -741,7 +770,7 @@ footer {
       </div>
     </div>
 
-    <div class="book-card">
+    <div class="book-card" data-publisher="İş Bankası Kültür Yayınları">
       <div class="book-spine" style="background:linear-gradient(160deg,#c85878,#e898a8);">
         <div class="book-title-overlay">Tarçın ve Büyük Tartışma</div>
       </div>
@@ -752,7 +781,7 @@ footer {
       </div>
     </div>
 
-    <div class="book-card">
+    <div class="book-card" data-publisher="İş Bankası Kültür Yayınları">
       <div class="book-spine" style="background:linear-gradient(160deg,#50a870,#88d0a0);">
         <div class="book-title-overlay">Tarçın ve Gizemli Sesler</div>
       </div>
@@ -763,7 +792,7 @@ footer {
       </div>
     </div>
 
-    <div class="book-card">
+    <div class="book-card" data-publisher="İş Bankası Kültür Yayınları">
       <div class="book-spine" style="background:linear-gradient(160deg,#d85838,#f09070);">
         <div class="book-title-overlay">Tarçın ve Orman Futbol Şampiyonası</div>
       </div>
@@ -774,7 +803,7 @@ footer {
       </div>
     </div>
 
-    <div class="book-card">
+    <div class="book-card" data-publisher="İş Bankası Kültür Yayınları">
       <div class="book-spine" style="background:linear-gradient(160deg,#b87850,#e0b890);">
         <div class="book-title-overlay">Tarçın'ın Kaybolan Havuçları</div>
       </div>
@@ -785,7 +814,7 @@ footer {
       </div>
     </div>
 
-    <div class="book-card">
+    <div class="book-card" data-publisher="İş Bankası Kültür Yayınları">
       <div class="book-spine" style="background:linear-gradient(160deg,var(--olive),#c8d8a0);">
         <div class="book-title-overlay">Utangaç Ayı Monti</div>
       </div>
@@ -796,8 +825,7 @@ footer {
       </div>
     </div>
 
-    <div class="publisher-label">İthaki Yayınları</div>
-    <div class="book-card">
+    <div class="book-card" data-publisher="İthaki Yayınları">
       <div class="book-spine" style="background:linear-gradient(160deg,var(--sun),#f0a050);">
         <div class="book-title-overlay">Ayı ile Kuş</div>
       </div>
@@ -808,7 +836,7 @@ footer {
       </div>
     </div>
 
-    <div class="book-card">
+    <div class="book-card" data-publisher="İthaki Yayınları">
       <div class="book-spine" style="background:linear-gradient(160deg,var(--olive-l),var(--olive));">
         <div class="book-title-overlay">Ayı ile Kuş 2</div>
       </div>
@@ -819,7 +847,7 @@ footer {
       </div>
     </div>
 
-    <div class="book-card">
+    <div class="book-card" data-publisher="İthaki Yayınları">
       <div class="book-spine" style="background:linear-gradient(160deg,var(--turq-light),var(--turq-deep));">
         <div class="book-title-overlay">Ayı ile Kuş 3</div>
       </div>
@@ -830,8 +858,7 @@ footer {
       </div>
     </div>
 
-    <div class="publisher-label">Mundi</div>
-    <div class="book-card">
+    <div class="book-card" data-publisher="Mundi">
       <div class="book-spine" style="background:linear-gradient(160deg,#a0b840,#d0e070);">
         <div class="book-title-overlay">Elmer ve Yabancı</div>
       </div>
@@ -842,8 +869,7 @@ footer {
       </div>
     </div>
 
-    <div class="publisher-label">Sincap Kitap</div>
-    <div class="book-card">
+    <div class="book-card" data-publisher="Sincap Kitap">
       <div class="book-spine" style="background:linear-gradient(160deg,#d04050,#e88898);">
         <div class="book-title-overlay">Bazen Olur Böyle</div>
       </div>
@@ -854,8 +880,7 @@ footer {
       </div>
     </div>
 
-    <div class="publisher-label">Uçanbalık</div>
-    <div class="book-card">
+    <div class="book-card" data-publisher="Uçanbalık">
       <div class="book-spine" style="background:linear-gradient(160deg,#3a5a3a,#6a9a6a);">
         <div class="book-title-overlay">Bu Kitabı Yalama</div>
       </div>
@@ -916,5 +941,18 @@ footer {
   </div>
 </footer>
 
+<script>
+function filterBooks(section, publisher, btn) {
+  document.querySelectorAll('#' + section + '-filters .pub-chip').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('#' + section + '-grid .book-card').forEach(card => {
+    if (publisher === 'tümü' || card.dataset.publisher === publisher) {
+      card.classList.remove('hidden');
+    } else {
+      card.classList.add('hidden');
+    }
+  });
+}
+</script>
 </body>
 </html>
