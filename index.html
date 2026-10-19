@@ -814,6 +814,65 @@ footer {
   .masonry { columns: 1; }
   .footer-top { grid-template-columns: 1fr !important; }
 }
+
+/* ===== DARK MODE ===== */
+[data-theme="dark"] {
+  --bg: #1a1916;
+  --card-bg: #242220;
+  --ink: #e8e4dc;
+  --ink-muted: #a09a90;
+  --border: #3a3730;
+  --nav-bg: rgba(26,25,22,0.95);
+}
+[data-theme="dark"] body { background: var(--bg); color: var(--ink); }
+[data-theme="dark"] nav { background: var(--nav-bg); border-bottom-color: var(--border); }
+[data-theme="dark"] .blog-card,
+[data-theme="dark"] .book-card,
+[data-theme="dark"] .yoga-card { background: var(--card-bg); border-color: var(--border); }
+[data-theme="dark"] footer { background: #111; }
+
+/* Dark mode toggle butonu */
+.dark-toggle {
+  background: none;
+  border: 1.5px solid var(--border, #e8e0d5);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  transition: border-color .2s, transform .2s;
+  color: var(--ink, #2c2a26);
+  flex-shrink: 0;
+}
+.dark-toggle:hover { border-color: var(--olive, #7a7a5a); transform: scale(1.1); }
+
+/* ===== YUKARI ÇIK BUTONU ===== */
+.scroll-top {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  width: 44px;
+  height: 44px;
+  background: var(--ink, #2c2a26);
+  color: var(--bg, #f5f0e8);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity .3s, transform .3s;
+  z-index: 999;
+  box-shadow: 0 4px 16px rgba(0,0,0,.15);
+}
+.scroll-top.visible { opacity: 1; transform: translateY(0); }
+.scroll-top:hover { background: var(--olive, #7a7a5a); }
 </style>
 </head>
 <body>
@@ -838,6 +897,7 @@ footer {
     <li><a href="galeri.html">Galeri</a></li>
     <li><a href="hakkimda.html">Hakkımda</a></li>
   </ul>
+  <button class="dark-toggle" onclick="toggleDark()" aria-label="Karanlık mod">🌙</button>
   <button class="hamburger" id="hamburger" onclick="this.classList.toggle('open'); document.getElementById('navlinks').classList.toggle('open')">
     <span></span><span></span><span></span>
   </button>
@@ -1102,5 +1162,42 @@ footer {
   </div>
 </footer>
 
+
+<!-- DARK MODE + SCROLL TOP -->
+<button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Yukarı çık">↑</button>
+<script>
+// Dark mode
+(function(){
+  const saved = localStorage.getItem('theme');
+  if (saved) document.documentElement.setAttribute('data-theme', saved);
+})();
+function toggleDark() {
+  const html = document.documentElement;
+  const isDark = html.getAttribute('data-theme') === 'dark';
+  html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  localStorage.setItem('theme', isDark ? 'light' : 'dark');
+  document.querySelectorAll('.dark-toggle').forEach(b => b.textContent = isDark ? '🌙' : '☀️');
+}
+document.querySelectorAll('.dark-toggle').forEach(b => {
+  b.textContent = document.documentElement.getAttribute('data-theme') === 'dark' ? '☀️' : '🌙';
+});
+// Scroll top
+const scrollBtn = document.getElementById('scrollTop');
+window.addEventListener('scroll', () => {
+  scrollBtn.classList.toggle('visible', window.scrollY > 400);
+});
+</script>
+
+<script>
+// Okuma süresi (sadece blog yazısı sayfalarında çalışır)
+(function(){
+  const article = document.querySelector('.article-body, .post-body, .entry-content');
+  const badge = document.querySelector('.reading-time');
+  if (!article || !badge) return;
+  const words = article.innerText.trim().split(/\s+/).length;
+  const mins = Math.max(1, Math.round(words / 200));
+  badge.textContent = mins + ' dk okuma';
+})();
+</script>
 </body>
 </html>
