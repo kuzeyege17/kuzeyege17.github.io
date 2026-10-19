@@ -400,17 +400,17 @@ footer {
 </div>
 
 <div class="filters">
-  <button class="filter-btn active">Tümü</button>
-  <button class="filter-btn">Kitap</button>
-  <button class="filter-btn">Yoga</button>
-  <button class="filter-btn">Doğa</button>
+  <button class="filter-btn active" onclick="filterBlog('tümü', this)">Tümü</button>
+  <button class="filter-btn" onclick="filterBlog('kitap', this)">Kitap</button>
+  <button class="filter-btn" onclick="filterBlog('yoga', this)">Yoga</button>
+  <button class="filter-btn" onclick="filterBlog('doğa', this)">Doğa</button>
 </div>
 
 <section class="blog-section">
   <div class="blog-grid">
 
     <a href="yavash-okumak.html" style="text-decoration:none;color:inherit;display:block;">
-    <div class="blog-card featured" style="cursor:pointer;">
+    <div class="blog-card featured" data-category="kitap" style="cursor:pointer;">
       <div class="blog-card-img">
         <div class="blog-card-img-inner" style="background:linear-gradient(135deg,var(--olive-l),var(--stone-l));"></div>
       </div>
@@ -424,7 +424,7 @@ footer {
     </a>
 
     <a href="sabah-rutini.html" style="text-decoration:none;color:inherit;display:block;">
-    <div class="blog-card" style="cursor:pointer;">
+    <div class="blog-card" data-category="yoga" style="cursor:pointer;">
       <div class="blog-card-img">
         <div class="blog-card-img-inner" style="background:linear-gradient(135deg,var(--turq),var(--turq-deep));"></div>
       </div>
@@ -437,7 +437,7 @@ footer {
     </a>
 
     <a href="orman-yuruyusu.html" style="text-decoration:none;color:inherit;display:block;">
-    <div class="blog-card" style="cursor:pointer;">
+    <div class="blog-card" data-category="doğa" style="cursor:pointer;">
       <div class="blog-card-img">
         <div class="blog-card-img-inner" style="background:linear-gradient(135deg,var(--olive),var(--olive-l));"></div>
       </div>
@@ -449,7 +449,7 @@ footer {
     </div>
     </a>
 
-    <div class="blog-card">
+    <div class="blog-card" data-category="kitap">
       <div class="blog-card-img">
         <div class="blog-card-img-inner" style="background:linear-gradient(135deg,var(--terra-l),var(--terra));"></div>
       </div>
@@ -461,7 +461,7 @@ footer {
     </div>
 
     <a href="pilates.html" style="text-decoration:none;color:inherit;display:block;">
-    <div class="blog-card" style="cursor:pointer;">
+    <div class="blog-card" data-category="yoga" style="cursor:pointer;">
       <div class="blog-card-img">
         <div class="blog-card-img-inner" style="background:linear-gradient(135deg,var(--stone-l),var(--stone));"></div>
       </div>
@@ -528,5 +528,19 @@ footer {
   </div>
 </footer>
 
+
+<script>
+function filterBlog(category, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.blog-card').forEach(card => {
+    if (category === 'tümü' || card.dataset.category === category) {
+      card.style.display = '';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+}
+</script>
 </body>
 </html>
