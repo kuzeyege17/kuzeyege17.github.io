@@ -206,6 +206,23 @@ nav {
   text-transform: uppercase;
   margin-top: 4px;
 }
+.section-label {
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 0 0 20px 4px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(200,184,154,0.4);
+}
 .book-rating { color: var(--terra); font-size: 0.75rem; }
 .book-note {
   font-size: 0.78rem;
@@ -392,6 +409,7 @@ footer {
 </div>
 
 <section class="books-section">
+  <div class="section-label">Roman</div>
   <div class="books-grid">
 
     <div class="book-card">
@@ -446,6 +464,46 @@ footer {
         <div class="book-name">Profesör Do'nun Göz Kliniği</div>
         <div class="book-author">Yoonha Byun</div>
         <div class="book-publisher">Nora Kitap</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="books-section">
+  <div class="section-label">Çocuk Kitabı</div>
+  <div class="books-grid">
+
+    <div class="book-card">
+      <div class="book-spine" style="background:linear-gradient(160deg,var(--sun),#f0a050);">
+        <div class="book-title-overlay">Ayı ile Kuş</div>
+      </div>
+      <div class="book-info">
+        <div class="book-name">Ayı ile Kuş — Piknik ve Diğer Öyküler</div>
+        <div class="book-author">Jarvis</div>
+        <div class="book-publisher">İthaki Yayınları</div>
+      </div>
+    </div>
+
+    <div class="book-card">
+      <div class="book-spine" style="background:linear-gradient(160deg,var(--olive-l),var(--olive));">
+        <div class="book-title-overlay">Ayı ile Kuş 2</div>
+      </div>
+      <div class="book-info">
+        <div class="book-name">Ayı ile Kuş 2 — Yıldızlar ve Diğer Öyküler</div>
+        <div class="book-author">Jarvis</div>
+        <div class="book-publisher">İthaki Yayınları</div>
+      </div>
+    </div>
+
+    <div class="book-card">
+      <div class="book-spine" style="background:linear-gradient(160deg,var(--turq-light),var(--turq-deep));">
+        <div class="book-title-overlay">Ayı ile Kuş 3</div>
+      </div>
+      <div class="book-info">
+        <div class="book-name">Ayı ile Kuş 3 — Dev Macera ve Diğer Öyküler</div>
+        <div class="book-author">Jarvis</div>
+        <div class="book-publisher">İthaki Yayınları</div>
       </div>
     </div>
 
