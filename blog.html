@@ -509,7 +509,7 @@ footer {
     </div>
     </a>
 
-    <div class="blog-card">
+    <div class="blog-card" data-category="doğa">
       <div class="blog-card-img">
         <div class="blog-card-img-inner" style="background:linear-gradient(135deg,var(--turq-light),var(--olive-l));"></div>
       </div>
@@ -589,8 +589,9 @@ function searchBlog(query) {
   const cards = Array.from(grid.children);
   if (!q) {
     const activeBtn = document.querySelector('.filter-btn.active');
-    const cat = activeBtn ? activeBtn.textContent.trim().toLowerCase() : 'tümü';
-    applyFilter(cat);
+    // data-category değerini btn'in onclick'inden al, textContent'ten değil
+    const cat = activeBtn ? (activeBtn.getAttribute('onclick').match(/'([^']+)'/) || [])[1] : 'tümü';
+    applyFilter(cat || 'tümü');
     return;
   }
   cards.forEach(c => {
